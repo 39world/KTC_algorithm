@@ -1,0 +1,32 @@
+def solution(topping):
+    answer = 0
+    
+    # for i in range(len(topping)):
+    #     arr1 = topping[0:i]
+    #     arr2 = topping[i:]
+    #     if len(set(arr1)) == len(set(arr2)):
+    #         answer+=1
+    #     else:
+    #         pass
+    
+    # n = len(set(topping))
+    dict_topping = {}
+    second = set()
+    for i in topping:
+        if i in  dict_topping:
+            dict_topping[i] +=1
+        else:
+            dict_topping[i] = 1
+    
+    for i in topping:
+        dict_topping[i] -= 1
+        second.add(i)
+        if dict_topping[i] == 0 :
+            del(dict_topping[i])
+        if len(dict_topping) == len(second):
+            answer+=1
+    
+    
+    
+    
+    return answer
