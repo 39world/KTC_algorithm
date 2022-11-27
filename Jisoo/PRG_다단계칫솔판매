@@ -1,0 +1,52 @@
+import math
+def solution(enroll, referral, seller, amount):
+    answer = []
+    
+    # 인물 - 직속 상관 dict
+    connect = dict(zip(enroll,referral))
+    # 인물 - 이익 dict
+    benefit = dict(zip(enroll,[0 for i in range(len(enroll))]))
+
+    
+    # 모든 셀러에 대해 반복
+    for i in range(len(seller)):
+        # 지금 seller
+        tmp_seller = seller[i]
+        # 지금 이익
+        tmp_bene = amount[i] * 100
+        # 지금 인물에 대한 이익
+        now_bene = math.ceil(0.9 * tmp_bene)
+        # 다음 인물에게 갈 이익
+        next_bene = tmp_bene - now_bene
+        # 지금 인물에게 이익 더하기
+        benefit[tmp_seller] += now_bene
+        
+        # 직속 상관이 없을 때 까지
+        while connect[tmp_seller] != "-":
+            # 직속상관으로 인물 체인지
+            tmp_seller = connect[tmp_seller]
+            # 온 이익의 0.9만큼 갖기(올림)
+            benefit[tmp_seller] += math.ceil(0.9 * next_bene)
+            # 다음 사람에게 전달할 이익은 가진것의 나머지
+            next_bene = next_bene - math.ceil(0.9*next_bene)
+            # 전달할 이익이 더이상 없다면 끝
+            if next_bene == 0 :
+                break
+    
+    # 이익 값 dict value리스트(인물들 순서랑 동일함)
+    answer=list(benefit.values())
+    return answer
+
+#
+    # def find(tmp_seller, tmp_bene):
+    #     if connect[tmp_seller] == "-":
+    #         return 
+    #     else : 
+    #         tmp_seller = connect[tmp_seller]
+    #         benefit[tmp_seller] += math.ceil(0.9 * tmp_bene)
+    #         tmp_bene = tmp_bene - math.ceil(0.9*tmp_bene)
+    #         if tmp_bene == 0 :
+    #             return
+    #         else:
+    #             return find(tmp_seller, tmp_bene)
+    #이런것도 사용 가능
