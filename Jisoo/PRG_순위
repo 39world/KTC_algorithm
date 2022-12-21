@@ -1,0 +1,72 @@
+from operator import methodcaller
+#def solution(info, query):
+#     answer = []
+#     for i in range(len(query)):
+#         answer.append(0)
+
+#     info2 = list(map(methodcaller("split", " "), info))
+#     query2 = list(map(methodcaller("split"," and "), query))
+
+#     for i in range(0, len(query)):
+#         tmp=query2[i]
+#         last=tmp.pop()
+#         last=last.split(" ")
+#         cond=tmp+last
+#         score=cond.pop()
+#         for j in range(0, len(info)):
+#             people = info2[j][0:4]
+#             p_score=info2[j][4]
+#             cond1=[0,0,0,0]
+#             if int(p_score) >= int(score):
+#                 for k in range(0, len(cond)):
+#                     if cond[k] == '-':
+#                         cond1[k] = people[k]
+#                     else :
+#                         cond1[k] = cond[k]
+#                 if cond1 == people:
+#                     answer[i] +=1
+#             else:
+#                 continue
+
+def solution(info, query):
+    data = dict()
+    for a in ['cpp', 'java', 'python', '-']:
+        for b in ['backend', 'frontend', '-']:
+            for c in ['junior', 'senior', '-']:
+                for d in ['chicken', 'pizza', '-']:
+                    data.setdefault((a, b, c, d), list())
+    for i in info:
+        i = i.split()
+        for a in [i[0], '-']:
+            for b in [i[1], '-']:
+                for c in [i[2], '-']:
+                    for d in [i[3], '-']:
+                        data[(a, b, c, d)].append(int(i[4]))
+
+    for k in data:
+        data[k].sort()
+
+        #print(k, data[k])
+
+    answer = list()
+    for q in query:
+        q = q.split()
+
+        pool = data[(q[0], q[2], q[4], q[6])]
+        #print(pool)
+        find = int(q[7])
+        #print(find)
+        l = 0
+        r = len(pool)
+        mid = 0
+        while l < r:
+            mid = (r+l)//2
+            if pool[mid] >= find:
+                r = mid
+            else:
+                l = mid+1
+            #print(l, r, mid, answer)
+        # answer.append((pool, find, mid))
+        answer.append(len(pool)-l)
+
+    return answer
