@@ -1,0 +1,44 @@
+public class tangerine {
+
+    public static void main(String[] args) {
+        int k = 6;
+        int[] tangerine = {1,3,2,5,4,5,2,3};
+        System.out.println(solution(k, tangerine));
+    }
+
+     /*
+        설명 :
+        1) 귤 크기 별로 몇 개인지 <크기, 개수> 해쉬맵에 저장
+        2) 크기 별 개수 내림차순으로 정렬
+        3) 크기 별 개수 더하면서, k보다 크면 그 더한 종류를 answer로 반환
+      */
+    public static int solution(int k, int[] tangerine) {
+        int answer = 0;
+        int count = 0;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (Integer i : tangerine){
+            if(map.containsKey(i)){
+                map.put(i, map.get(i) +1);
+            }else{
+                map.put(i,1);
+            }
+        }
+
+        List<Integer> countList = new ArrayList<>(map.values());
+        countList.sort(Comparator.reverseOrder());
+        for (Integer i : countList){
+            if (count >= k) {
+                break;
+            }else{
+               count += i;
+               answer += 1;
+            }
+        }
+//        Comparator<Integer> comparator = Integer::compare;
+//        Comparator<Integer> comparator2 = (c1, c2) -> Integer.compare(c1, c2);
+//        Comparator<Integer> reversedComparator = comparator.reversed();
+
+        return answer;
+    }
+}
+
